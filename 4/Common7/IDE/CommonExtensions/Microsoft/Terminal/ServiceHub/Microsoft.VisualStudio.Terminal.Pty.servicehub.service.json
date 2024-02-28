@@ -1,0 +1,10 @@
+{
+  "host": "netfx.x64",
+  "hostId": "TerminalPTYService",
+  "entryPoint": {
+    "assemblyPath": "Microsoft.VisualStudio.Terminal.ServiceHub.dll",
+    "fullClassName": "Microsoft.VisualStudio.Terminal.ServiceHub.PtyServiceFactory",
+    "appBasePath": "%VSAPPIDDIR%",
+    "configPath": "%PkgDefApplicationConfigFile%"
+  }
+}

@@ -1,0 +1,370 @@
+{
+  "properties": {
+    "textEditor.advanced.diffHighlightMode": {
+      "type": "string",
+      "default": "wholeLine",
+      "enum": [
+        "codeContour",
+        "wholeLine",
+        "blockOutline",
+        "mixedOutline"
+      ],
+      "enumItemLabels": [
+        "@DiffCodeContour;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@DiffWholeLine;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@DiffBlockOutline;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@DiffMixedOutline;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+      ],
+      "title": "@DiffMode;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "enumIntegerToString": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.Diff.HighlightMode"
+          },
+          "map": [
+            {
+              "result": "codeContour",
+              "match": 0
+            },
+            {
+              "result": "wholeLine",
+              "match": 1
+            },
+            {
+              "result": "blockOutline",
+              "match": 2
+            },
+            {
+              "result": "mixedOutline",
+              "match": 3
+            }
+          ]
+        }
+      }
+    },
+    "textEditor.advanced.diffOverviewMargin": {
+      "type": "boolean",
+      "default": false,
+      "title": "@DiffOverviewMargin;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.ShowDiffOverviewMargin"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.responsiveCompletion": {
+      "type": "boolean",
+      "default": true,
+      "tags": [ "performance" ],
+      "title": "@EnableResponsiveCompletion;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.ResponsiveCompletionEnabled"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.clickPerformPeekDifference": {
+      "type": "string",
+      "default": "singleClick",
+      "enum": [
+        "off",
+        "singleClick",
+        "doubleClick"
+      ],
+      "enumItemLabels": [
+        "@DisableMouseClickToPeekMargin;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@SingleClickPerformPeekDiff;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@DoubleClickPerformPeekDiff;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+      ],
+      "title": "@EnableMouseClickPerformPeekDifference;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "enumIntegerToString": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.InteractiveChangeMarginGesture"
+          },
+          "map": [
+            {
+              "result": "off",
+              "match": 0
+            },
+            {
+              "result": "singleClick",
+              "match": 1
+            },
+            {
+              "result": "doubleClick",
+              "match": 2
+            }
+          ]
+        }
+      }
+    },
+    "textEditor.advanced.wordBasedSuggestions": {
+      "type": "boolean",
+      "default": true,
+      "title": "@EnableWordBasedSuggestionsDisplayName;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.WordBasedSuggestions"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.defaultCompletionMode": {
+      "type": "string",
+      "default": "automatic",
+      "enum": [
+        "automatic",
+        "tabOnly",
+        "lastUsed"
+      ],
+      "enumItemLabels": [
+        "@DefaultCompletionModeAutoCompletion;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@DefaultCompletionModeSuggestion;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@DefaultCompletionModeLastUsed;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+      ],
+      "title": "@DefaultCompletionModeDisplayName;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "enumIntegerToString": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.DefaultCompletionMode"
+          },
+          "map": [
+            {
+              "result": "automatic",
+              "match": 0
+            },
+            {
+              "result": "tabOnly",
+              "match": 1
+            },
+            {
+              "result": "lastUsed",
+              "match": 2
+            }
+          ]
+        }
+      }
+    },
+    "textEditor.advanced.codeLensDisplacesCaretLine": {
+      "type": "boolean",
+      "default": true,
+      "title": "@DisplaceCaretLineOption;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.DisplaceCaretLineOption"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.boxSelection": {
+      "type": "boolean",
+      "default": false,
+      "title": "@BoxSelection;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.UseBoxSelection"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.adaptiveFormatting": {
+      "type": "boolean",
+      "default": true,
+      "title": "@AdaptiveFormatting;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.AdaptiveFormatting"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.rtfCopy": {
+      "type": "boolean",
+      "default": true,
+      "tags": [ "performance" ],
+      "title": "@EnableRtfCopy;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.EnableRtfCopy"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.maxRtfCopyLength": {
+      "type": "integer",
+      "default": 10240,
+      "minimum": 0,
+      "tags": [ "performance" ],
+      "title": "@MaxRtfCopyLength;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "enableWhen":"${config:textEditor.advanced.rtfCopy}=='true'",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.MaxRtfCopyLength"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.typingLatencyGuard": {
+      "type": "boolean",
+      "default": true,
+      "tags": [ "performance" ],
+      "title": "@EnableTypingLatencyGuard;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.EnableTypingLatencyGuard"
+          }
+        }
+      }
+    },
+
+    "textEditor.advanced.scrolling.linesPerVerticalScroll": {
+      "type": "integer",
+      "default": 3,
+      "maximum": 100,
+      "minimum": 1,
+      "title": "@VerticalScrollSensitivity;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.VerticalScrollSensitvity"
+          }
+        }
+      }
+    },
+    "textEditor.advanced.scrolling.charsPerHorizontalScroll": {
+      "type": "integer",
+      "default": 10,
+      "maximum": 100,
+      "minimum": 1,
+      "title": "@HorizontalScrollSensitivity;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.HorizontalScrollSensitvity"
+          }
+        }
+      }
+    },
+
+    "textEditor.advanced.textFormatting": {
+      "type": "string",
+      "default": "automatic",
+      "tags": [ "accessibility" ],
+      "enum": [
+        "automatic",
+        "ideal",
+        "display"
+      ],
+      "enumItemLabels": [
+        "@TextFormattingModeAutomatic;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@TextFormattingModeIdeal;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@TextFormattingModeDisplay;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+      ],
+      "title": "@TextFormattingMode;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "enumIntegerToString": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.TextFormattingMode"
+          },
+          "map": [
+            {
+              "result": "automatic",
+              "match": 0
+            },
+            {
+              "result": "ideal",
+              "match": 1
+            },
+            {
+              "result": "display",
+              "match": 2
+            }
+          ]
+        }
+      }
+    },
+
+    "textEditor.advanced.textRendering": {
+      "type": "string",
+      "default": "automatic",
+      "tags": [ "accessibility" ],
+      "enum": [
+        "automatic",
+        "clearType",
+        "grayscale",
+        "aliased"
+      ],
+      "enumItemLabels": [
+        "@TextRenderingModeAutomatic;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@TextRenderingModeClearType;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@TextRenderingModeGrayscale;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@TextRenderingModeAliased;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+      ],
+      "title": "@TextRenderingMode;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "migration": {
+        "enumIntegerToString": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "TextEditor.General.TextRenderingMode"
+          },
+          "map": [
+            {
+              "result": "automatic",
+              "match": 0
+            },
+            {
+              "result": "aliased",
+              "match": 1
+            },
+            {
+              "result": "grayscale",
+              "match": 2
+            },
+            {
+              "result": "clearType",
+              "match": 3
+            }
+          ]
+        }
+      }
+    }
+  },
+  "categories": {
+    "textEditor.advanced": {
+      "title": "@601;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "order": 1,
+      "legacyOptionPageId": "efd55f3d-23c1-4a1d-a58b-77295611c7d4",
+      "additionalKeywords": ["@AdvancedKeywords;{e269b994-ef71-4ce0-8bcd-581c217372e8}"]
+    },
+    "textEditor.advanced.scrolling": {
+      "title": "@ScrollSettingsBlockDescription;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+    }
+  }
+}

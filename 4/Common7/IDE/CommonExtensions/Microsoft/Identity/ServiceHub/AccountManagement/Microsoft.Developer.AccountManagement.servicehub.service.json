@@ -1,0 +1,9 @@
+{
+  "host": "dotnet.x64",
+  "hostId": "IdentityHost",
+  "entryPoint": {
+    "assemblyPath": "Microsoft.Developer.AccountManagement.dll",
+    "fullClassName": "Microsoft.Developer.AccountManagement.AccountsRoamingServiceHubService",
+    "assemblySearchPathsConfig": "assemblySearchPathsConfig.json"
+  }
+}

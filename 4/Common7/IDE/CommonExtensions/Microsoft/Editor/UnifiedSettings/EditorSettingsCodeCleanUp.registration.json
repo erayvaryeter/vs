@@ -1,0 +1,77 @@
+{
+  "properties": {
+    "textEditor.codeCleanup.profile": {
+      "type": "string",
+      "title": "@CodeCleanUpOnSaveSelectProfile;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "default": "none",
+      "enum": [
+        "none",
+        "profile1",
+        "profile2"
+      ],
+      "enumItemLabels": [
+        "@CodeCleanUpNoneOption;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@CodeCleanupOnSaveProfile1;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+        "@CodeCleanupOnSaveProfile2;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+      ],
+      "migration": {
+        "custom": {
+          "inputs": [
+            {
+              "store": "SettingsManager",
+              "path": "TextEditor.CodeCleanupOnSave.EnableCodeCleanupOnSave"
+            },
+            {
+              "store": "SettingsManager",
+              "path": "TextEditor.CodeCleanupOnSave.CodeCleanupOnSaveSelectedProfile"
+            }
+          ],
+          "map": [
+            {
+              "result": "none",
+              "matches": [ false, "@any"]
+            },
+            {
+              "result": "profile1",
+              "matches": [ true, "@missing"]
+            },
+            {
+              "result": "none",
+              "matches": [ false, "@missing"]
+            },
+            {
+              "result": "none",
+              "matches": [ "@missing", "@any"]
+            },
+            {
+              "result": "profile1",
+              "matches": [ true, "Profile1" ]
+            },
+            {
+              "result": "profile2",
+              "matches": [ true, "Profile2" ]
+            }
+          ]
+
+        }
+      },
+      "commands": [
+        {
+          "vsct": {
+            "text": "@ConfigureCodeCleanupCommand;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+            "set": "160961b3-909d-4b28-9353-a1bef587b4a6",
+            "id": 320
+          }
+        }
+      ]
+    }
+  },
+  "categories": {
+    "textEditor.codeCleanup": {
+      "title": "@CodeCleanup;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+      "legacyOptionPageId": "D15E80D1-F395-4D76-9C1B-5C0923248E4F",
+      "additionalKeywords": ["@CodeCleanupKeywords;{e269b994-ef71-4ce0-8bcd-581c217372e8}"],
+      "order":2
+    }
+  }
+}

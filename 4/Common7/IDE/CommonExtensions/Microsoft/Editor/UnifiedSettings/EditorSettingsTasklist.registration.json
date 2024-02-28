@@ -1,0 +1,67 @@
+{
+    "properties": {
+        "environment.tasklist.tokens": {
+            "type": "array",
+            "title": "@TokenList;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "@TasklistName;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "normal",
+                            "high"
+                        ],
+                        "enumItemLabels": [
+                            "@TasklistPriorityLowLabel;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+                            "@TasklistPriorityNormalLabel;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+                            "@TasklistPriorityHighLabel;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+                        ],
+                        "title": "@TasklistPriority;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+                        "default": "normal"
+                    }
+                }
+            },
+            "default": [
+                {
+                    "text": "HACK",
+                    "priority": "normal"
+                },
+                {
+                    "text": "UNDONE",
+                    "priority": "normal"
+                },
+                {
+                    "text": "UnresolvedMergeConflict",
+                    "priority": "high"
+                }
+            ],
+            "itemsAreOrdered": false,
+            "hasUserSelectableDefaultItem": false,
+            "migrationCallback": {
+                "packageId": "4A9B7E50-AA16-11d0-A8C5-00A0C921A4D2",
+                "serviceId": "F207EE73-3849-4EFF-9B68-F1177B0FEB58"
+            },
+            "messages": [
+                {
+                  "text": "@TODOMessage;{e269b994-ef71-4ce0-8bcd-581c217372e8}"
+                }
+              ]
+        }
+    },
+    "categories": {
+        "environment": {
+            "title": "%Microsoft.VisualStudio.Shell.Environment.Category%"
+        },
+        "environment.tasklist": {
+            "title": "@Tasklist;{e269b994-ef71-4ce0-8bcd-581c217372e8}",
+            "legacyOptionPageId": "BEF96440-1769-11D1-8F8D-00A0C91BBFA2"
+
+        }
+    }
+}
