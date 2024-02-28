@@ -1,0 +1,837 @@
+{
+  "$id": "https://aka.ms/unified-settings-experience/registration/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "description": "This is the meta-schema for Visual Studio Unified Setting registration manifests",
+
+  "properties": {
+    "properties": {
+      "title": "Properties",
+      "description": "A map of moniker => setting registration",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/monikerPattern" },
+      "additionalProperties": { "$ref": "#/$defs/SettingRegistration" }
+    },
+
+    "categories": {
+      "title": "Categories",
+      "description": "A map of monikers => category registration",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/monikerPattern" },
+      "additionalProperties": { "$ref": "#/$defs/CategoryRegistration" }
+    }
+  },
+
+  "$defs": {
+    "$comment": "Elements in $defs that begin with an upper-case letter are representations of C# types in the Registration assembly",
+
+    "monikerPattern": {
+      "$comment": "Valid monikers must begin with a letter or number, and cannot begin or end with a '.'",
+      "type": "string",
+      "pattern": "^([a-z0-9][A-Za-z0-9]+\\.)*[a-z0-9][A-Za-z0-9]+$"
+    },
+    "literalStringPattern": {
+      "$comment": "Valid string literals must not start with the '@' token specifier",
+      "type": "string",
+      "pattern": "^[^@].+$"
+    },
+    "literalValues": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": { "type": [ "object", "string" ] }
+        },
+        {
+          "type": [ "boolean", "integer", "number" ]
+        },
+        {
+          "$ref": "#/$defs/literalStringPattern"
+        }
+      ]
+    },
+    "FormatStringKind": {
+      "description": "The format used to validate the value",
+      "type": "string",
+      "enum": [ "date", "time", "ipv4", "email", "uri", "path"]
+    },
+    "PathKind": {
+      "description": "The format used to validate the path value",
+      "type": "string",
+      "enum": [ "file", "folder", "folderOrUri" ]
+    },
+    "IDisplayRegistration": {
+      "$comment": "The properties of a registration that influence how it is displayed in the UI.",
+      "properties": {
+        "description": {
+          "description": "The verbose description",
+          "type": "string"
+        },
+        "order": {
+          "description": "The preferred display order",
+          "type": "integer"
+        },
+        "title": {
+          "description": "The display title. The value may be a plain string, or may be a special format that indicates the localized value should be retrieved from a resource dictionary, or from the resources of a Visual Studio package.",
+          "type": "string"
+        },
+        "helpUri": {
+          "description": "The URI of a help page",
+          "type": "string"
+        },
+        "tags": {
+          "description": "A list of tags to associate with the registration. Used when filtering the settings window.",
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "additionalKeywords": {
+          "description": "A list of additional keywords to associate with the registration when searching in the UI.",
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "Command.VsctCommand": {
+      "title": "VSCT Command",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "The text of the interactive element.",
+          "type": "string",
+          "minLength": 1
+        },
+        "set": {
+          "description": "The command set.",
+          "type": "string",
+          "format": "guid"
+        },
+        "id": {
+          "description": "The command Id.",
+          "type": "integer"
+        },
+        "parameter": {
+          "description": "An optional command parameter."
+        }
+      },
+      "required": [ "text", "set", "id" ]
+    },
+    "Command": {
+      "title": "Command",
+      "type": "object",
+      "properties": {
+        "vsct": { "$ref": "#/$defs/Command.VsctCommand" }
+      },
+      "minProperties": 1,
+      "maxProperties": 1
+    },
+    "Message": {
+      "title": "Message",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "The text of the message.",
+          "type": "string",
+          "minLength": 1
+        },
+        "visibleWhen": {
+          "description": "The boolean expression that determines when the message is visible.\nYou can reference setting values and environment variable values.\nExamples:\n${config:environment.general.showStatusBar} == 'true'\n${env:USERDOMAIN} != ''\n${config:environment.general.showStatusBar} == 'true' || (${config:environment.visualExperience.titleCaseMenus} == 'true' && ${config:environment.visualExperience.useMinimalMode} == 'false')",
+          "type": "string"
+        }
+      },
+      "required": [ "text" ]
+    },
+    "IRenderCommands": {
+      "$comment": "Properties for a registration with associated commands.",
+      "properties": {
+        "commands": {
+          "description": "The commands to render with this element.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Command" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "IRenderMessages": {
+      "$comment": "Properties for a registration with associated messages.",
+      "properties": {
+        "messages": {
+          "description": "The messages to render with this element.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Message" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "__AlternateDefault": {
+      "$comment": "A common base for strongly-typed AlternateDefaultOf*",
+      "description": "Describes a rule for using a different default value",
+      "properties": {
+        "flagName": {
+          "title": "The name of the feature flag",
+          "type": "string",
+          "minLength": 1
+        },
+        "default": {
+          "title": "The alternate default value"
+        }
+      },
+      "required": [ "flagName" ]
+    },
+    "AlternateDefaultOfBoolean": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "boolean" }
+      },
+      "allOf": [ { "$ref": "#/$defs/__AlternateDefault" } ],
+      "required": [ "default" ]
+    },
+    "AlternateDefaultOfInteger": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "integer" }
+      },
+      "allOf": [ { "$ref": "#/$defs/__AlternateDefault" } ],
+      "required": [ "default" ]
+    },
+    "AlternateDefaultOfNumber": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "number" }
+      },
+      "allOf": [ { "$ref": "#/$defs/__AlternateDefault" } ],
+      "required": [ "default" ]
+    },
+    "AlternateDefaultOfString": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "string" }
+      },
+      "allOf": [ { "$ref": "#/$defs/__AlternateDefault" } ],
+      "required": [ "default" ]
+    },
+    "AlternateDefaultOfArray": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "array" }
+      },
+      "allOf": [ { "$ref": "#/$defs/__AlternateDefault" } ],
+      "required": [ "default" ]
+    },
+    "IRegistrationDefault": {
+      "description": "Properties for registrations with a typed default value",
+      "type": "object",
+      "properties": {
+        "default": { "description": "The default value" }
+      },
+      "$comment": "The sub-schemas in 'allOf' ensure that when an 'alternateDefault' is provided it has the same type as the base registration",
+      "allOf": [
+        {
+          "if": {
+            "properties": { "default": { "type": "boolean" } }
+          },
+          "then": {
+            "properties": {
+              "alternateDefault": { "$ref": "#/$defs/AlternateDefaultOfBoolean" },
+              "environmentVariableDefault": {
+                "type": "string",
+                "description": "The environment variable from which the default value is parsed. If it is not defined or cannot be parsed, the value specified in 'default' is used instead."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "default": { "type": "integer" } }
+          },
+          "then": {
+            "properties": {
+              "alternateDefault": { "$ref": "#/$defs/AlternateDefaultOfInteger" },
+              "environmentVariableDefault": {
+                "type": "string",
+                "description": "The environment variable from which the default value is parsed. If it is not defined or cannot be parsed, the value specified in 'default' is used instead."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "default": { "type": "number" } }
+          },
+          "then": {
+            "properties": {
+              "alternateDefault": { "$ref": "#/$defs/AlternateDefaultOfNumber" },
+              "environmentVariableDefault": {
+                "type": "string",
+                "description": "The environment variable from which the default value is parsed. If it is not defined or cannot be parsed, the value specified in 'default' is used instead."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "default": { "type": "string" } }
+          },
+          "then": {
+            "properties": {
+              "alternateDefault": { "$ref": "#/$defs/AlternateDefaultOfString" },
+              "environmentVariableDefault": {
+                "type": "string",
+                "description": "The environment variable from which the default value is parsed. If it is not defined or cannot be parsed, the value specified in 'default' is used instead."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "default": { "type": "array" } }
+          },
+          "then": {
+            "properties": { "alternateDefault": { "$ref": "#/$defs/AlternateDefaultOfArray" } }
+          }
+        }
+      ],
+      "required": [ "default" ]
+    },
+    "StringIntMapEntry": {
+      "type": "object",
+      "properties": {
+        "result": { "$ref": "#/$defs/literalStringPattern" },
+        "match": { "type": "integer" }
+      },
+      "additionalProperties": false,
+      "required": [ "result", "match" ]
+    },
+    "ResultMapEntry": {
+      "title": "Result Map Entry",
+      "description": "Maps a single result to a set of legacy input matchers.",
+      "type": "object",
+      "properties": {
+        "result": {
+          "title": "Unified Settings Result",
+          "description": "A literal value returns that value. \"@=index\" returns the value of the indexed input.",
+          "oneOf": [
+            {
+              "description": "Sets the result equal to the value of the indexed input",
+              "type": "string",
+              "pattern": "^@=[0-9]+$"
+            },
+            {
+              "description": "Sets the result equal to the Unified Settings registered default",
+              "type": "string",
+              "pattern": "^@default$"
+            },
+            {
+              "description": "Sets the result equal to the literal value",
+              "$ref": "#/$defs/literalValues"
+            }
+          ]
+        },
+        "matches": {
+          "title": "Legacy Input Matches",
+          "description": "An array of input matches. One match is required for each entry in the rule inputs array.",
+          "type": "array",
+          "items": {
+            "description": "A literal value will match that value. \"@missing\" matches a missing legacy value. \"@any\" matches any legacy value.",
+            "oneOf": [
+              {
+                "description": "\"@missing\" matches a missing legacy value. \"@any\" matches any legacy value.",
+                "type": "string",
+                "enum": [ "@missing", "@any" ]
+              },
+              {
+                "description": "Matches the literal value",
+                "$ref": "#/$defs/literalValues"
+              }
+            ]
+          }
+        }
+      },
+      "required": [ "result", "matches" ]
+    },
+    "LegacySettingLocation": {
+      "title": "Legacy Setting Location",
+      "type": "object",
+      "properties": {
+        "store": {
+          "title": "Legacy Store",
+          "description": "The legacy settings store holding the input value",
+          "type": "string",
+          "enum": [ "VsUserSettingsRegistry", "SettingsManager" ]
+        },
+        "path": {
+          "title": "Legacy Setting Path",
+          "description": "The moniker of or path to the legacy setting",
+          "type": "string"
+        },
+        "bitmask": {
+          "title": "Bitmask",
+          "description": "Address a single bit in a legacy value. Interpreted as an unsigned long.",
+          "type": "integer"
+        }
+      },
+      "required": [ "store", "path" ]
+    },
+    "Migration.CustomRule": {
+      "title": "Custom Migration Rule",
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "description": "An array of legacy setting locations. Each location can referenced by index in the 'map' property.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/LegacySettingLocation" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "map": {
+          "description": "A set of result maps. Only one map in the set should match a given combination of inputs.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/ResultMapEntry" },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [ "inputs", "map" ]
+    },
+
+    "Migration.PassRule": {
+      "title": "Pass Migration Rule",
+      "description": "Migrates a single legacy setting with a compatible type",
+      "type": "object",
+      "properties": {
+        "input": { "$ref": "#/$defs/LegacySettingLocation" }
+      },
+      "required": [ "input" ]
+    },
+
+    "Migration.EnumPlusBoolToEnumWithNoneRule": {
+      "title": "EnumPlusBool To EnumWithNone Migration Rule",
+      "description": "Migrates a legacy bool and legacy enumeration setting to a single string enumeration with a \"none\" value",
+      "type": "object",
+      "properties": {
+        "boolInput": { "$ref": "#/$defs/LegacySettingLocation" },
+        "enumInput": { "$ref": "#/$defs/LegacySettingLocation" },
+        "trueAndMissingDefault": { "$ref": "#/$defs/literalStringPattern" }
+      },
+      "required": [ "boolInput", "enumInput" ]
+    },
+
+    "Migration.EnumIntegerToStringRule": {
+      "title": "EnumInteger to EnumString Rule",
+      "description": "Migrates a legacy integer enumeration setting to a string enumeration",
+      "type": "object",
+      "properties": {
+        "input": { "$ref": "#/$defs/LegacySettingLocation" },
+        "map": {
+          "description": "A collection of tuples mapping a legacy int value to a Unified Setting string enum value",
+          "type": "array",
+          "items": { "$ref": "#/$defs/StringIntMapEntry" },
+          "minItems": 1
+        }
+      },
+      "required": [ "input", "map" ]
+    },
+
+    "Migration.EnumIntegerPlusBoolToEnumWithNoneRule": {
+      "title": "EnumPlusBool To EnumWithNone Migration Rule",
+      "description": "Migrates a legacy bool and legacy enumeration setting to a single string enumeration with a \"none\" value",
+      "type": "object",
+      "properties": {
+        "boolInput": { "$ref": "#/$defs/LegacySettingLocation" },
+        "enumInput": { "$ref": "#/$defs/LegacySettingLocation" },
+        "map": {
+          "description": "A collection of tuples mapping a legacy int value to a Unified Setting string enum value",
+          "type": "array",
+          "items": { "$ref": "#/$defs/StringIntMapEntry" },
+          "minItems": 1
+        },
+        "trueAndMissingDefault": { "$ref": "#/$defs/literalStringPattern" }
+      },
+      "required": [ "boolInput", "enumInput", "map" ]
+    },
+    "Migration": {
+      "title": "Migration Rule",
+      "type": "object",
+      "properties": {
+        "custom": { "$ref": "#/$defs/Migration.CustomRule" },
+        "pass": { "$ref": "#/$defs/Migration.PassRule" },
+        "enumPlusBoolToEnumWithNone": { "$ref": "#/$defs/Migration.EnumIntegerPlusBoolToEnumWithNoneRule" },
+        "enumIntegerToString": { "$ref": "#/$defs/Migration.EnumIntegerToStringRule" },
+        "enumIntegerPlusBoolToEnumWithNone": { "$ref": "#/$defs/Migration.EnumIntegerPlusBoolToEnumWithNoneRule" }
+      },
+      "minProperties": 1,
+      "maxProperties": 1
+    },
+    "IBoolean": {
+      "description": "Properties for a boolean",
+      "type": "object",
+      "properties": {
+        "type": { "const": "boolean" }
+      },
+      "required": [ "type" ]
+    },
+    "IBooleanWithDefault": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "boolean" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IBoolean" },
+        { "$ref": "#/$defs/IRegistrationDefault" }
+      ],
+      "required": [ "default" ]
+    },
+    "IInteger": {
+      "description": "Properties for an integer",
+      "type": "object",
+      "properties": {
+        "type": { "const": "integer" },
+        "minimum": { "type": "integer" },
+        "maximum": { "type": "integer" }
+      },
+      "required": [ "type" ]
+    },
+    "IIntegerWithDefault": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "integer" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IInteger" },
+        { "$ref": "#/$defs/IRegistrationDefault" }
+      ],
+      "required": [ "default" ]
+    },
+    "INumber": {
+      "description": "Properties for a number",
+      "type": "object",
+      "properties": {
+        "type": { "const": "number" },
+        "minimum": { "type": "number" },
+        "maximum": { "type": "number" }
+      },
+      "required": [ "type" ]
+    },
+    "INumberWithDefault": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "number" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/INumber" },
+        { "$ref": "#/$defs/IRegistrationDefault" }
+      ],
+      "required": [ "default" ]
+    },
+    "IString": {
+      "description": "Properties for a string",
+      "type": "object",
+      "properties": {
+        "type": { "const": "string" },
+        "minLength": { "type": "integer" },
+        "maxLength": { "type": "integer" }
+      },
+      "$comment": "The 'not' sub-schema below ensures that IString will not also match for IEnumString or IFormatString",
+      "not": {
+        "anyOf": [
+          {
+            "properties": {
+              "enum": true
+            },
+            "required": [ "enum" ]
+          },
+          {
+            "properties": {
+              "format": true
+            },
+            "required": [ "format" ]
+          }
+        ]
+      },
+      "required": [ "type" ]
+    },
+    "IStringWithDefault": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "string" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IString" },
+        { "$ref": "#/$defs/IRegistrationDefault" }
+      ],
+      "required": [ "default" ]
+    },
+    "IFormatString": {
+      "description": "Properties for a format string",
+      "type": "object",
+      "properties": {
+        "type": { "const": "string" },
+        "format": { "$ref": "#/$defs/FormatStringKind" },
+        "pathKind": { "$ref": "#/$defs/PathKind" }
+      },
+      "required": [ "type", "format" ],
+      "allOf":[
+        {
+          "if": {
+            "properties": {
+              "format": { "enum": [ "path" ] }
+            }
+          },
+          "then": {
+            "required": [ "pathKind" ]
+          }
+        }
+      ]
+    },
+    "IFormatStringWithDefault": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "string" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IFormatString" },
+        { "$ref": "#/$defs/IRegistrationDefault" }
+      ],
+      "required": [ "default" ]
+    },
+    "IEnumString": {
+      "description": "Properties for an enum",
+      "properties": {
+        "type": { "const": "string" },
+        "enum": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "enumItemLabels": {
+          "description": "A list of the display labels for the values",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [ "type", "enum" ]
+    },
+    "IEnumStringWithDefault": {
+      "properties": {
+        "default": { "type": "string" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IEnumString" },
+        { "$ref": "#/$defs/IRegistrationDefault" }
+      ],
+      "required": [ "default" ]
+    },
+    "IArray": {
+      "$comment": "A common base for strongly-typed ArraySettingRegistrationOf*",
+      "type": "object",
+      "properties": {
+        "type": { "const": "array" },
+        "minItems": { "type": "integer" },
+        "maxItems": { "type": "integer" },
+        "itemsAreOrdered": { "type": "boolean" },
+        "allowItemEditing": { "type": "boolean" },
+        "items": { "description": "Describes the array elements" },
+        "default": { "type": "array" },
+        "hasUserSelectableDefaultItem": {
+          "description": "Whether this array supports a default item that can be selected by the user",
+          "type": "boolean"
+        },
+        "migrationCallback": { "$ref": "#/$defs/Callback" }
+      },
+      "allOf": [ { "$ref": "#/$defs/IRegistrationDefault" } ],
+      "required": [ "type", "items", "default" ]
+    },
+    "ArraySettingRegistrationOfString": {
+      "description": "Properties for an array of strings",
+      "type": "object",
+      "properties": {
+        "items": {
+          "allOf": [ { "$ref": "#/$defs/IString" } ]
+        },
+        "default": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "allOf": [ { "$ref": "#/$defs/IArray" } ],
+      "required": [ "items", "default" ]
+    },
+    "ArraySettingRegistrationOfFormatString": {
+      "description": "Properties for an array of format strings",
+      "type": "object",
+      "properties": {
+        "items": {
+          "allOf": [ { "$ref": "#/$defs/IFormatString" } ]
+        },
+        "default": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "allOf": [ { "$ref": "#/$defs/IArray" } ],
+      "required": [ "items", "default" ]
+    },
+    "ArraySettingRegistrationOfEnumString": {
+      "description": "Properties for an array of enum strings",
+      "type": "object",
+      "properties": {
+        "items": {
+          "allOf": [ { "$ref": "#/$defs/IEnumString" } ]
+        },
+        "default": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "allOf": [ { "$ref": "#/$defs/IArray" } ],
+      "required": [ "items", "default" ]
+    },
+    "ArraySettingRegistrationOfObject": {
+      "description": "Properties for an array of objects",
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": { "const": "object" },
+            "properties": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "allOf": [ { "$ref": "#/$defs/PropertyRegistration" } ]
+              }
+            }
+          },
+          "required": [ "type", "properties" ]
+        },
+        "default": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      },
+      "allOf": [ { "$ref": "#/$defs/IArray" } ],
+      "required": [ "items", "default" ]
+    },
+    "CategoryRegistration": {
+      "title": "Describes the display properties of a Category",
+      "type": "object",
+      "properties": {
+        "legacyOptionPageId": {
+          "description": "The GUID of the Option page this category replaces",
+          "type": "string",
+          "format": "guid"
+        }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IDisplayRegistration" },
+        { "$ref": "#/$defs/IRenderCommands" },
+        { "$ref": "#/$defs/IRenderMessages" }
+      ]
+    },
+    "SettingRegistration": {
+      "$comment": "Aggregates all the possible Setting registration schemas",
+      "title": "Describes a setting",
+      "type": "object",
+      "properties": {
+        "requiresRestart": {
+          "title": "Requires Restart",
+          "description": "Whether this setting requires restarting the shell for changes to take effect",
+          "type": "boolean",
+          "default": false
+        },
+        "unsupportedMessage": {
+          "title": "Unsupported Message",
+          "description": "The message to display if the setting is not supported",
+          "type": [ "string", "null" ],
+          "default": null
+        },
+        "enableWhen": {
+          "title": "Enable When",
+          "description": "The expression that determines if this setting is enabled in the UI",
+          "type": "string",
+          "default": null
+        },
+        "migration": {
+          "title": "Migration",
+          "description": "Describes the rule for migrating this setting from legacy stores",
+          "$ref": "#/$defs/Migration"
+        },
+        "type": {
+          "title": "Value Type",
+          "description": "The expected type of the value",
+          "type": "string",
+          "enum": [ "boolean", "integer", "number", "string", "array" ]
+        }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IDisplayRegistration" },
+        { "$ref": "#/$defs/IRenderCommands" },
+        { "$ref": "#/$defs/IRenderMessages" }
+      ],
+      "oneOf": [
+        { "$ref": "#/$defs/IBooleanWithDefault" },
+        { "$ref": "#/$defs/IIntegerWithDefault" },
+        { "$ref": "#/$defs/INumberWithDefault" },
+        { "$ref": "#/$defs/IStringWithDefault" },
+        { "$ref": "#/$defs/IFormatStringWithDefault" },
+        { "$ref": "#/$defs/IEnumStringWithDefault" },
+        { "$ref": "#/$defs/ArraySettingRegistrationOfString" },
+        { "$ref": "#/$defs/ArraySettingRegistrationOfFormatString" },
+        { "$ref": "#/$defs/ArraySettingRegistrationOfEnumString" },
+        { "$ref": "#/$defs/ArraySettingRegistrationOfObject" }
+      ]
+    },
+    "PropertyRegistration": {
+      "$comment": "Properties for array elements",
+      "title": "Describes a property of an array element",
+      "type": "object",
+      "properties": {
+        "enableWhen": {
+          "title": "Enable When",
+          "description": "The rule that determines if this setting is enabled in the UI",
+          "type": "string",
+          "default": null
+        },
+        "type": {
+          "title": "Value Type",
+          "description": "The expected type of the value",
+          "type": "string",
+          "enum": [ "boolean", "integer", "number", "string", "array" ]
+        },
+        "isEditable": {
+          "title": "Editable",
+          "description": "Whether the property is editable in the UI",
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/IDisplayRegistration" }
+      ],
+      "oneOf": [
+        { "$ref": "#/$defs/IBooleanWithDefault" },
+        { "$ref": "#/$defs/IIntegerWithDefault" },
+        { "$ref": "#/$defs/INumberWithDefault" },
+        { "$ref": "#/$defs/IStringWithDefault" },
+        { "$ref": "#/$defs/IFormatStringWithDefault" },
+        { "$ref": "#/$defs/IEnumStringWithDefault" }
+      ]
+    },
+    "Callback": {
+      "description": "An invokable callback provided by a setting owner",
+      "type": "object",
+      "properties": {
+        "packageId": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "string"
+        }
+      },
+      // packageId, serviceId, or both may be specified
+      "anyOf": [
+        { "required": [ "packageId" ] },
+        { "required": [ "serviceId" ] },
+        { "required": [ "packageId", "serviceId" ] }
+      ]
+    }
+  }
+}
