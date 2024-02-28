@@ -1,0 +1,21 @@
+{
+  "requirements": [
+    "vsWebWorkload"
+  ],
+  "editSteps": [
+    {
+      "$refmerge": "/definitions/common.json#/remoteInstanceEditSteps"
+    }
+  ],
+  "properties": {
+    "IsConfiguringSpecificConnectionName": {
+      "value": true
+    }
+  },
+  "persistenceProperties": {
+    "$ref": "/definitions/common.json#/persistenceProperties"
+  },
+  "arm": {
+    "$ref": "/dependencyTypes/configs/appinsights/arm.json"
+  }
+}

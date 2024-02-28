@@ -1,0 +1,21 @@
+{
+  "kind": "serviceConnector",
+  "restorable": true,
+  "model": [
+    {
+      "connectorAuthType": "AccessKey",
+      "configNameCustomizations": [
+        {
+          "originalName": "AZURE_APPCONFIGURATION_CONNECTIONSTRING",
+          "customizedName": "@@connectionId@@"
+        }
+      ],
+      "additionalConfigs": [
+        {
+          "configName": "Endpoints__@@connectionId@@",
+          "configValue": "@@endpoint@@"
+        }
+      ]
+    }
+  ]
+}

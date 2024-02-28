@@ -1,0 +1,71 @@
+{
+  "requirements": [
+    "vsWebWorkload"
+  ],
+  "editSteps": [
+    "PickInstance",
+    "RemoteConnection",
+    "DependencySummary"
+  ],
+  "persistenceProperties": {
+    "connectionId": {
+      "isBase": true
+    },
+    "dynamicId": {
+      "isBase": true
+    },
+    "ignored": {
+      "isBase": true
+    },
+    "resourceId": {
+      "parametrizer": "resourceId"
+    },
+    "secretStore": {},
+    "serviceConnectorResourceId": {
+      "parametrizer": "resourceId"
+    },
+    "suggestion": {
+      "isBase": true
+    },
+    "type": {
+      "isBase": true
+    },
+    "group": {
+      "isBase": true
+    }
+  },
+  "arm": {
+    "apiVersion": "2017-10-01",
+    "templateGenerator": {
+      "id": "export",
+      "model": {
+        "templatePreprocessors": [
+          {
+            "id": "removeUnnecessaryProperties",
+            "model": {
+              "properties": [
+                "etag",
+                "id",
+                "identity",
+                "properties",
+                "tags"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "feature": {
+    "id": "storage.azure.appService"
+  },
+  "persistencePreprocessors": [
+    "RemoteEntity",
+    "SecretStoreResourceId"
+  ],
+  "secretStores": [
+    "AzureAppSettings",
+    "secrets.keyVault",
+    "none"
+  ]
+}

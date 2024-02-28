@@ -1,0 +1,16 @@
+{
+  "requirements": [
+    "vsWebWorkload"
+  ],
+  "editSteps": [
+    {
+      "$refmerge": "/definitions/common.json#/remoteInstanceEditSteps"
+    }
+  ],
+  "persistenceProperties": {
+    "$ref": "/definitions/common.json#/persistenceProperties"
+  },
+  "arm": {
+    "$ref": "/dependencyTypes/configs/storage/arm.json"
+  }
+}

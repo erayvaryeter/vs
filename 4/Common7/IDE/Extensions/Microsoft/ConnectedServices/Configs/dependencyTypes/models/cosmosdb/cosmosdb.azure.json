@@ -1,0 +1,27 @@
+{
+  "id": "cosmosdb.azure",
+  "provisioningId": "Microsoft.DocumentDB/databaseAccounts",
+  "name": "strings:#/cosmosdbAzureDependencyTypeName",
+  "description": "strings:#/cosmosdbAzureDependencyTypeDescription",
+  "connectionSettingPropertyDisplayName": "strings:#/connectionStringName",
+  "smallImage": {
+    "guid": "AE27A6B0-E345-4288-96DF-5EAF394EE369",
+    "id": 3802
+  },
+  "resizableImage": {
+    "guid": "AE27A6B0-E345-4288-96DF-5EAF394EE369",
+    "id": 3802
+  },
+  "displayOrder": 7200,
+  "learnMoreUrl": "2146752",
+  "actions": [
+    "openInPortal",
+    "restore",
+    "learnMore"
+  ],
+  "tags": [
+    "strings:#/database",
+    "strings:#/store",
+    "Azure"
+  ]
+}

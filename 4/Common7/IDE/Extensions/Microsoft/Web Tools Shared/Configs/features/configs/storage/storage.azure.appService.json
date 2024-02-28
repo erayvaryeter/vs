@@ -1,0 +1,20 @@
+{
+  "components": {
+    "nuget": {
+      "modifiers": [
+        "storage.nuget.allPackages"
+      ]
+    },
+    "secretStore": {
+      "modifiers": [
+        "storage.secretStore.localOrKeyVault.connectionId.blob",
+        "storage.secretStore.localOrKeyVault.connectionId.queue"
+      ]
+    },
+    "serviceConnector": {
+      "modifiers": [
+        "storage.serviceConnector.cloud.appService"
+      ]
+    }
+  }
+}

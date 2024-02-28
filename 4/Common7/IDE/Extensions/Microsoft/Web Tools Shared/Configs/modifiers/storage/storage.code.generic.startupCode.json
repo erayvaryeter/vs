@@ -1,0 +1,460 @@
+{
+  "kind": "code.generic",
+  "order": 20,
+  "model": {
+    "description": "strings:#/addStartupCode",
+    "snippetModels": [
+      {
+        "name": "AddExtensionsClassDeclarationAndBody",
+        "condition": "ClassicConfigureServices",
+        "snippets": [
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "Namespace",
+                  "properties": {}
+                },
+                {
+                  "kind": "ClassDeclaration",
+                  "properties": {
+                    "Class": "StartupExtensions"
+                  }
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "ClassDeclaration",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "Namespace",
+                  "properties": {}
+                }
+              ]
+            },
+            "body": "internal static class StartupExtensions\r\n{\r\npublic static IAzureClientBuilder<BlobServiceClient, BlobClientOptions> AddBlobServiceClient(this AzureClientFactoryBuilder builder, string serviceUriOrConnectionString, bool preferMsi)\r\n{\r\nif (preferMsi && Uri.TryCreate(serviceUriOrConnectionString, UriKind.Absolute, out Uri serviceUri))\r\n{\r\nreturn builder.AddBlobServiceClient(serviceUri);\r\n}\r\nelse\r\n{\r\nreturn builder.AddBlobServiceClient(serviceUriOrConnectionString);\r\n}\r\n}\r\npublic static IAzureClientBuilder<QueueServiceClient, QueueClientOptions> AddQueueServiceClient(this AzureClientFactoryBuilder builder, string serviceUriOrConnectionString, bool preferMsi)\r\n{\r\nif (preferMsi && Uri.TryCreate(serviceUriOrConnectionString, UriKind.Absolute, out Uri serviceUri))\r\n{\r\nreturn builder.AddQueueServiceClient(serviceUri);\r\n}\r\nelse\r\n{\r\nreturn builder.AddQueueServiceClient(serviceUriOrConnectionString);\r\n}\r\n}\r\n}",
+            "tokens": {}
+          }
+        ]
+      },
+      {
+        "name": "EnsureStartupClassConfigurationProperty",
+        "condition": "ClassicConfigureServices",
+        "snippets": [
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "ClassProperty",
+                  "properties": {
+                    "TypeName": "Microsoft.Extensions.Configuration.IConfiguration"
+                  }
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "ClassProperty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                }
+              ]
+            },
+            "body": "public IConfiguration Configuration { get; }",
+            "tokens": {},
+            "resultTokenName": "configurationClassProperty"
+          }
+        ]
+      },
+      {
+        "name": "EnsureStartupClassConstructorWithConfiguration",
+        "condition": "ClassicConfigureServices",
+        "snippets": [
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "ClassConstructor",
+                  "properties": {}
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "ClassConstructor",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                }
+              ]
+            },
+            "body": "public @@containingClassName@@(IConfiguration configuration)\r\n    {\r\n    @@configurationClassProperty@@ = configuration;\r\n    }",
+            "tokens": {
+              "containingClassName": {
+                "name": "containingClassName",
+                "kind": "ClassName",
+                "properties": {}
+              },
+              "configurationClassProperty": {
+                "name": "configurationClassProperty",
+                "kind": "ClassProperty",
+                "properties": {
+                  "TypeName": "Microsoft.Extensions.Configuration.IConfiguration"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "EnsureBlobClientDIConstruction",
+        "condition": "ClassicConfigureServices",
+        "snippets": [
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddAzureClients",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "ArgumentDelegate",
+                  "properties": {
+                    "TypeName": "System.Action<Microsoft.Extensions.Azure.AzureClientFactoryBuilder>"
+                  }
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddBlobServiceClient",
+                    "TypeName": "Microsoft.Extensions.Azure.AzureClientFactoryBuilder"
+                  }
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddAzureClients",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "ArgumentDelegate",
+                  "properties": {
+                    "TypeName": "System.Action<Microsoft.Extensions.Azure.AzureClientFactoryBuilder>"
+                  }
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddQueueServiceClient",
+                    "TypeName": "Microsoft.Extensions.Azure.AzureClientFactoryBuilder"
+                  }
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "Expression",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddAzureClients",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "ArgumentDelegate",
+                  "properties": {
+                    "TypeName": "System.Action<Microsoft.Extensions.Azure.AzureClientFactoryBuilder>"
+                  }
+                }
+              ]
+            },
+            "body": "@@localConfigVar@@.AddBlobServiceClient(@@configurationClassProperty@@[`@@connectionId@@:blob`]!, preferMsi:true);\r\n@@localConfigVar@@.AddQueueServiceClient(@@configurationClassProperty@@[`@@connectionId@@:queue`]!, preferMsi:true);\r\n",
+            "tokens": {
+              "localConfigVar": {
+                "name": "localConfigVar",
+                "kind": "MethodParameter",
+                "properties": {
+                  "TypeName": "Microsoft.Extensions.Azure.AzureClientFactoryBuilder"
+                }
+              },
+              "configurationClassProperty": {
+                "name": "configurationClassProperty",
+                "kind": "ClassProperty",
+                "properties": {
+                  "TypeName": "Microsoft.Extensions.Configuration.IConfiguration"
+                }
+              },
+              "connectionId": {
+                "name": "connectionId",
+                "kind": "ExternalValue",
+                "properties": {
+                  "ModelPropertyName": "connectionId"
+                }
+              }
+            }
+          },
+          {
+            "kind": "Expression",
+            "location": {
+              "parts": [
+                {
+                  "kind": "Method",
+                  "properties": {
+                    "Method": "ConfigureServices",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                }
+              ]
+            },
+            "body": "@@localVar@@.AddAzureClients(builder =>\r\n    {\r\n    builder.AddBlobServiceClient(@@configurationClassProperty@@[`@@connectionId@@:blob`]!, preferMsi:true);\r\nbuilder.AddQueueServiceClient(@@configurationClassProperty@@[`@@connectionId@@:queue`]!, preferMsi:true);\r\n    });",
+            "tokens": {
+              "localVar": {
+                "name": "localVar",
+                "kind": "MethodParameter",
+                "properties": {
+                  "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                }
+              },
+              "configurationClassProperty": {
+                "name": "configurationClassProperty",
+                "kind": "ClassProperty",
+                "properties": {
+                  "TypeName": "Microsoft.Extensions.Configuration.IConfiguration"
+                }
+              },
+              "connectionId": {
+                "name": "connectionId",
+                "kind": "ExternalValue",
+                "properties": {
+                  "ModelPropertyName": "connectionId"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "EnsureBlobClientDIConstructionForMinimalAppModel",
+        "condition": "MinimalAppModel",
+        "snippets": [
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "TopLevelMethod",
+                  "properties": {}
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddBlobServiceClient",
+                    "TypeName": "Microsoft.Extensions.Azure.AzureClientFactoryBuilder"
+                  }
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "Empty",
+            "location": {
+              "parts": [
+                {
+                  "kind": "TopLevelMethod",
+                  "properties": {}
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddQueueServiceClient",
+                    "TypeName": "Microsoft.Extensions.Azure.AzureClientFactoryBuilder"
+                  }
+                }
+              ]
+            },
+            "body": "",
+            "tokens": {}
+          },
+          {
+            "kind": "Expression",
+            "location": {
+              "parts": [
+                {
+                  "kind": "TopLevelMethod",
+                  "properties": {}
+                },
+                {
+                  "kind": "Invocation",
+                  "properties": {
+                    "Invocation": "AddAzureClients",
+                    "TypeName": "Microsoft.Extensions.DependencyInjection.IServiceCollection"
+                  }
+                },
+                {
+                  "kind": "ArgumentDelegate",
+                  "properties": {
+                    "TypeName": "System.Action<Microsoft.Extensions.Azure.AzureClientFactoryBuilder>"
+                  }
+                }
+              ]
+            },
+            "body": "@@localConfigVar@@.AddBlobServiceClient(@@localBuilderVar@@.Configuration[`@@connectionId@@:blob`]!, preferMsi:true);\r\n@@localConfigVar@@.AddQueueServiceClient(@@localBuilderVar@@.Configuration[`@@connectionId@@:queue`]!, preferMsi:true);\r\n",
+            "tokens": {
+              "localBuilderVar": {
+                "name": "localBuilderVar",
+                "kind": "LocalVariable",
+                "properties": {
+                  "TypeName": "Microsoft.AspNetCore.Builder.WebApplicationBuilder?",
+                  "Closure": true
+                }
+              },
+              "localConfigVar": {
+                "name": "localConfigVar",
+                "kind": "MethodParameter",
+                "properties": {
+                  "TypeName": "Microsoft.Extensions.Azure.AzureClientFactoryBuilder"
+                }
+              },
+              "connectionId": {
+                "name": "connectionId",
+                "kind": "ExternalValue",
+                "properties": {
+                  "ModelPropertyName": "connectionId"
+                }
+              }
+            }
+          },
+          {
+            "kind": "Expression",
+            "location": {
+              "parts": [
+                {
+                  "kind": "TopLevelMethod",
+                  "properties": {}
+                },
+                {
+                  "kind": "LocalVariable",
+                  "properties": {
+                    "TypeName": "Microsoft.AspNetCore.Builder.WebApplication?",
+                    "CodeOperation": "InsertBefore"
+                  },
+                  "locationTokenName": "localWebAppVar"
+                }
+              ]
+            },
+            "body": "@@localVar@@.Services.AddAzureClients(clientBuilder =>\r\n    {\r\n    clientBuilder.AddBlobServiceClient(@@localVar@@.Configuration[`@@connectionId@@:blob`]!, preferMsi:true);\r\nclientBuilder.AddQueueServiceClient(@@localVar@@.Configuration[`@@connectionId@@:queue`]!, preferMsi:true);\r\n    });",
+            "tokens": {
+              "localVar": {
+                "name": "localVar",
+                "kind": "LocalVariable",
+                "properties": {
+                  "TypeName": "Microsoft.AspNetCore.Builder.WebApplicationBuilder?",
+                  "Closure": true
+                }
+              },
+              "connectionId": {
+                "name": "connectionId",
+                "kind": "ExternalValue",
+                "properties": {
+                  "ModelPropertyName": "connectionId"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

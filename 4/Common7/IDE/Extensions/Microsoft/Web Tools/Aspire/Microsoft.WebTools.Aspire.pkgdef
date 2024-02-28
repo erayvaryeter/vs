@@ -1,0 +1,59 @@
+﻿[$RootKey$\Packages\{3e4e60b9-3622-44e3-803f-cedc549b4396}]
+@="DotNet Aspire Project System"
+"InprocServer32"="$WinDir$\SYSTEM32\MSCOREE.DLL"
+"Class"="Microsoft.WebTools.Aspire.VisualStudio.AspirePackage"
+"Assembly"="Microsoft.WebTools.Aspire,Version=17.0.0.0,Culture=neutral,PublicKeyToken=b03f5f7f11d50a3a"
+"AllowsBackgroundLoad"=dword:00000001
+
+[$RootKey$\AutoLoadPackages\{530594C8-34F0-4FCF-8B79-5CA83D491E3B}]
+"{3e4e60b9-3622-44e3-803f-cedc549b4396}"=dword:00000002
+
+[$RootKey$\UIContextRules\{530594C8-34F0-4FCF-8B79-5CA83D491E3B}]
+@="AspireSolutionUIContext"
+"Expression"="( IsAspireFeatureFlagEnabled & AspireSolution )"
+"AspireSolution"="SolutionHasProjectCapability:Aspire | AspireOrchestration"
+"IsAspireFeatureFlagEnabled"="FeatureFlag:WebTools.AspireTooling"
+
+[$RootKey$\UIContextRules\{F3D9A767-20AA-472D-AE5B-3FF39100F987}]
+@="AspireOrSupportedProjectUIContext"
+"Expression"="(IsAspireFeatureFlagEnabled & ( AspireSolution | SupportedProjectInSolution ))"
+"AspireSolution"="SolutionHasProjectCapability:Aspire | AspireOrchestration"
+"SupportedProjectInSolution"="SolutionHasProjectCapability:DotNetCoreWeb | DotNetCoreWorker"
+"IsAspireFeatureFlagEnabled"="FeatureFlag:WebTools.AspireTooling"
+
+[$RootKey$\UIContextRules\{BE707FE7-AA90-4361-8CE6-613B8F8FCA92}]
+@="AspireManageComponentsExperienceUIContext"
+"Expression"="(AspireSolution & IsFeatureFlagEnabled & IsAspireFeatureFlagEnabled)"
+"AspireSolution"="SolutionHasProjectCapability:Aspire | AspireOrchestration"
+"IsFeatureFlagEnabled"="FeatureFlag:WebTools.EnableAspireManageComponentsExperience"
+"IsAspireFeatureFlagEnabled"="FeatureFlag:WebTools.AspireTooling"
+
+[$RootKey$\RuntimeConfiguration\dependentAssembly\codeBase\{BB683A88-E171-47FF-A911-FE4797CC4D7A}]
+"Name"="Microsoft.WebTools.Aspire"
+"PublicKeyToken"="b03f5f7f11d50a3a"
+"Culture"="neutral"
+"Version"="17.0.0.0"
+"CodeBase"="$PackageFolder$\Microsoft.WebTools.Aspire.dll"
+
+[$RootKey$\Projects\{622C231C-9142-4542-B153-67336D4A40FF}]
+@="ProjectFactory"
+"Language(VsTemplate)"="CSharp"
+"TemplateGroupIDs(VsTemplate)"="Aspire"
+"ShowOnlySpecifiedTemplates(VsTemplate)"=dword:00000001
+"Package"="{3e4e60b9-3622-44e3-803f-cedc549b4396}"
+
+[$RootKey$\Menus]
+"{3e4e60b9-3622-44e3-803f-cedc549b4396}"=", Commands.ctmenu, 1"
+
+[$RootKey$\FeatureFlags\WebTools\EnableAspireManageComponentsExperience]
+"Value"=dword:00000000
+"PackageGuid"="3e4e60b9-3622-44e3-803f-cedc549b4396"
+
+[$RootKey$\FeatureFlags\WebTools\AspireTooling]
+"Description"="#303"
+"Value"=dword:00000000
+"Title"="#302"
+"PreviewPaneChannels"="*"
+"OverrideDefaultValueChannels"="int.main, IntPreview, Preview"
+"RequiredAction"="#304"
+"PackageGuid"="3e4e60b9-3622-44e3-803f-cedc549b4396"

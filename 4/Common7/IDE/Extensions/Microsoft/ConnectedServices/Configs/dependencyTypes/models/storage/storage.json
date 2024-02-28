@@ -1,0 +1,20 @@
+{
+  "id": "storage",
+  "isBase": true,
+  "name": "strings:#/storageDependencyTypeName",
+  "description": "strings:#/storageDependencyTypeDescription",
+  "connectionSettingPropertyDisplayName": "strings:#/connectionStringName",
+  "smallImage": {
+    "guid": "AE27A6B0-E345-4288-96DF-5EAF394EE369",
+    "id": 3798
+  },
+  "resizableImage": {
+    "guid": "AE27A6B0-E345-4288-96DF-5EAF394EE369",
+    "id": 3798
+  },
+  "displayOrder": 2000,
+  "actions": [],
+  "tags": [
+    "strings:#/storage"
+  ]
+}

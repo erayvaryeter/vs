@@ -1,0 +1,25 @@
+{
+  "kind": "serviceConnector",
+  "restorable": true,
+  "model": [
+    {
+      "connectorAuthType": "AccessKey",
+      "configNameCustomizations": [
+        {
+          "originalName": "AZURE_STORAGEACCOUNT_CONNECTIONSTRING",
+          "customizedName": "@@connectionId@@"
+        }
+      ],
+      "additionalConfigs": [
+        {
+          "configName": "@@connectionId@@:blob",
+          "configValue": "@@BlobEndpoint@@"
+        },
+        {
+          "configName": "@@connectionId@@:queue",
+          "configValue": "@@QueueEndpoint@@"
+        }
+      ]
+    }
+  ]
+}

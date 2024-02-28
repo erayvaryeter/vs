@@ -1,0 +1,43 @@
+{
+  "kind": "nuget.generic",
+  "order": 10,
+  "model": {
+    "jobs": {
+      ".NETCoreApp,Version=2.1": [
+        {
+          "Id": "Microsoft.Extensions.Caching.StackExchangeRedis",
+          "Version": "6.0.24",
+          "Operation": "Install"
+        }
+      ],
+      ".NETCoreApp,Version=6.0": [
+        {
+          "Id": "Microsoft.Extensions.Caching.StackExchangeRedis",
+          "Version": "6.0.24",
+          "Operation": "Install"
+        }
+      ],
+      ".NETCoreApp,Version=7.0": [
+        {
+          "Id": "Microsoft.Extensions.Caching.StackExchangeRedis",
+          "Version": "7.0.13",
+          "Operation": "Install"
+        }
+      ],
+      ".NETCoreApp,Version=8.0": [
+        {
+          "Id": "Microsoft.Extensions.Caching.StackExchangeRedis",
+          "Version": "8.0.0",
+          "Operation": "Install"
+        }
+      ],
+      ".NETFramework,Version=4.6.1": [
+        {
+          "Id": "Microsoft.Extensions.Caching.StackExchangeRedis",
+          "Version": "6.0.24",
+          "Operation": "Install"
+        }
+      ]
+    }
+  }
+}

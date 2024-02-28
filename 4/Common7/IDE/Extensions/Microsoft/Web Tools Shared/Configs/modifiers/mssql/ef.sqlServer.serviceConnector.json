@@ -1,0 +1,17 @@
+{
+  "kind": "serviceConnector",
+  "restorable": true,
+  "model": [
+    {
+      "connectorAuthType": "Secret",
+      "sourceResourceScope": "@@containerName@@",
+      "secretConnectionString": "@@ConnectionValue@@",
+      "configNameCustomizations": [
+        {
+          "originalName": "AZURE_SQL_CONNECTIONSTRING",
+          "customizedName": "@@connectionId@@"
+        }
+      ]
+    }
+  ]
+}

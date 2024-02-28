@@ -1,0 +1,32 @@
+{
+  "components": {
+    "itemTemplateCreator": {
+      "modifiers": [
+        "storage.itemTemplateCreator.blob",
+        "storage.itemTemplateCreator.queue"
+      ]
+    },
+    "localAccess": {
+      "modifiers": [
+        "storage.access.local"
+      ]
+    },
+    "nuget": {
+      "modifiers": [
+        "storage.nuget.allPackages"
+      ]
+    },
+    "secretStore": {
+      "modifiers": [
+        "secretStore.localSecretsOrAcaKeyVault.connectionId",
+        "storage.secretStore.localOrKeyVault.connectionId.blob",
+        "storage.secretStore.localOrKeyVault.connectionId.queue"
+      ]
+    },
+    "serviceConnector": {
+      "modifiers": [
+        "storage.serviceConnector.local"
+      ]
+    }
+  }
+}

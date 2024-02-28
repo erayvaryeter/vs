@@ -1,0 +1,15 @@
+{
+  "kind": "nuget.generic",
+  "order": 10,
+  "model": {
+    "jobs": {
+      ".NETCoreApp,Version=2.1": [
+        {
+          "Id": "Microsoft.EntityFrameworkCore.Sqlite",
+          "Version": "6.0.1",
+          "Operation": "Install"
+        }
+      ]
+    }
+  }
+}

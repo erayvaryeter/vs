@@ -1,0 +1,28 @@
+{
+  "feature": {
+    "id": "cosmosdb"
+  },
+  "editSteps": [
+    {
+      "$refmerge": "/definitions/common.json#/localConnectionEditSteps"
+    }
+  ],
+  "secretStores": [
+    {
+      "$refmerge": "/definitions/common.json#/localSecretStores"
+    }
+  ],
+  "properties": {
+    "connectionId": {
+      "value": "ConnectionStrings:"
+    }
+  },
+  "persistencePreprocessors": [
+    {
+      "$refmerge": "/definitions/common.json#/localConnectionPersistensePreprocessors"
+    }
+  ],
+  "persistenceProperties": {
+    "$ref": "/definitions/common.json#/persistenceProperties"
+  }
+}
