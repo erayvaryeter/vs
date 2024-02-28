@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/servicehub.config.schema.json",
+  "controller": {
+    "args": [ "$PIPE", "/AppBasePath:%VSAPPIDDIR%", "/ConfigFile:%PkgDefApplicationConfigFile%" ],
+    "executable": "./ServiceHub/controller/Microsoft.ServiceHub.Controller.exe",
+    "contextEnvironmentVariables": [ "VSAPPIDDIR", "VSAPPIDNAME", "VSROOTSUFFIX" ],
+    "additionalEnvironmentVariables": {
+      "NODE_OPTIONS": "",
+      "COMPLUS_FusionEnableForcedFullClosureWalk": "1",
+      "DOTNET_STARTUP_HOOKS": "",
+      "COMPlus_ThreadPool_UsePortableThreadPool": "0"
+    },
+    "dotnetRoot": "../dotnet/net8.0/runtime"
+  },
+  "hosts": {
+    "rootDir": "./ServiceHub/Hosts",
+    "appConfigFallback": "devenv.exe.config"
+  },
+  "services": {
+    "rootDir": "./ServiceHub/Services",
+    "discoveryServices": [ "VsixServiceDiscovery" ]
+  }
+}

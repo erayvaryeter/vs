@@ -1,0 +1,7 @@
+[
+    "..\\IDE\\PublicAssemblies",
+    "..\\IDE\\PrivateAssemblies",
+    "..\\IDE\\PublicAssemblies\\StreamJsonRpc.2.x",
+    "..\\IDE\\PublicAssemblies\\Nerdbank.Streams.2.x",
+    "..\\IDE\\PublicAssemblies\\MessagePack.2.x"
+]

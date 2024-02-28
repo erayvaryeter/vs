@@ -1,0 +1,10 @@
+﻿{
+  "entryPoint": {
+    "assemblyPath": "Microsoft.Developer.Settings.dll",
+    "fullClassName": "Microsoft.Developer.Settings.ServiceHubEntryPoint",
+    "appBasePath": "%VSAPPIDDIR%",
+    "configPath": "%PkgDefApplicationConfigFile%"
+  },
+  "host": "netfx.anycpu",
+  "hostId": "SettingsHost"
+}

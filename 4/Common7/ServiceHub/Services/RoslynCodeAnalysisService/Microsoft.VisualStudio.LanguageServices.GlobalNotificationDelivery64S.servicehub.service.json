@@ -1,0 +1,12 @@
+{
+  "host": "netfx.anycpu",
+  "hostId": "RoslynCodeAnalysisServiceS",
+  "hostGroupAllowed": true,
+  "serviceOverride": true, 
+  "entryPoint": {
+    "assemblyPath": "..\\..\\..\\IDE\\CommonExtensions\\Microsoft\\VBCSharp\\LanguageServices\\Microsoft.CodeAnalysis.Remote.ServiceHub.dll",
+    "fullClassName": "Microsoft.CodeAnalysis.Remote.RemoteGlobalNotificationDeliveryService+Factory",
+    "appBasePath": "%VSAPPIDDIR%",
+    "configPath": "%PkgDefApplicationConfigFile%"
+  }
+}

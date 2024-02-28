@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../schemas/servicehub.host.schema.json",
+  "hostExecutable": "./ServiceHub.DataWarehouseHost",
+  "hostArgs": [ "$HOSTID", "$PIPE", "$TELEMETRYSESSION" ],
+  "additionalEnvironmentVariables": {}
+}

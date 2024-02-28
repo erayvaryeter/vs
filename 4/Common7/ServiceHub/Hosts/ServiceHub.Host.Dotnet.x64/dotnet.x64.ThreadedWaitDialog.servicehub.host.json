@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../schemas/servicehub.host.schema.json",
+  "hostExecutable": "./ServiceHub.ThreadedWaitDialog",
+  "hostArgs": [ "$HOSTID", "$PIPE", "$TELEMETRYSESSION" ],
+  "additionalEnvironmentVariables": {}
+}
