@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+
+<Product xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper" ProductCode="Microsoft.Visual.C++.14.0.x86">
+
+  <!-- Defines list of files to be copied on build -->
+  <PackageFiles CopyAllPackageFiles="false">
+    <PackageFile Name="vc_redist.x86.exe" HomeSite="VCRedistExe" PublicKey="3082010a0282010100dbba2d329aea8159eb88f9d73f65851405d96a16d5dcd9dc8e6dc90b78c472d863f7b0e6beddf8b49b4fb1efe9948ea8af6b65d75420e8f8ecf333eee52c574a716c79e69d683927b4ed6a24b6d8c110726afabae3be6992648f20a1167e879b6bb0129f4cd233882a3f896d87d0d6a18b465019ca3bb755e54221fa4f50060558b7debd7ad44ee00152c0bc533e1eb8ca02505fc12188dfab64d8a80f8dd4dd18b9ca0bb190bfee47e34bfce4973b79df8270878d012fd8dfade1ece9dc7c8977b2a450b0c2838a4321937a68d6c460026d135809bf5591478d1c96c63724dcb096a83d7dd58b73042ffd2bcb57e1aefa906e7990032ee89549c5cb33a0b6b50203010001" />
+  </PackageFiles>
+
+  <InstallChecks>
+    <RegistryCheck Property="VersionFullCheck" Key="HKLM\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86" Value="Version" />
+  </InstallChecks>
+
+  <!-- Defines how to invoke the setup for the Visual C++ 14.0 redist -->
+  <Commands Reboot="Defer">
+    <Command PackageFile="vc_redist.x86.exe" Arguments=' /q '>
+
+      <!-- These checks determine whether the package is to be installed -->
+      <InstallConditions>
+        <BypassIf Property="VersionFullCheck" Compare="ValueGreaterThanOrEqualTo" Value="v14.38.33135"/>
+
+        <!-- Block install if user does not have admin privileges -->
+        <FailIf Property="AdminUser" Compare="ValueEqualTo" Value="false" String="AdminRequired"/>
+        <!-- Block install on Win95 -->
+        <FailIf Property="Version9X" Compare="VersionLessThan" Value="4.10" String="InvalidPlatformWin9x"/>
+        <!-- Block install on Vista or below -->
+        <FailIf Property="VersionNT" Compare="VersionLessThan" Value="6.00" String="InvalidPlatformWinNT"/>
+      </InstallConditions>
+
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success"/>
+        <ExitCode Value="3010" Result="SuccessReboot"/>
+        <DefaultExitCode Result="Fail" FormatMessageFromSystem="true" String="GeneralFailure" />
+      </ExitCodes>
+
+    </Command>
+  </Commands>
+</Product>
